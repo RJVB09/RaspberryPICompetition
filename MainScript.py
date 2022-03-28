@@ -20,7 +20,7 @@ gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE)
 #MiscVariables
 maximum = 570 #570 # Maximum value at full humidity
 setHumidity = 30 # Wanted humidity
-interval = 5 # Interval in s between moisturizations
+interval = 56 # Interval in s between moisturizations
 apiKey = '4a8f8a6f70312feeb3e1303b63615f42'
 debug = True
 
@@ -107,14 +107,14 @@ w = weather()
 try:
     while True:
         time.sleep(interval) 
-        #val = (((1023 - mcp.analogInput(0))/570)*100) #MOISTURE SENSOR (570) max humidity
-        val = (1023 - mcp.analogInput(0) - 480)/5.12 #POTMETER
+        val = (((1023 - mcp.analogInput(0))/570)*100) #MOISTURE SENSOR (570) max humidity
+        #val = (1023 - mcp.analogInput(0) - 480)/5.12 #POTMETER
         
         addWater = False
         
         if (val < setHumidity and w.call() < 0.55):
             GPIO.output(SOLENOID_PIN,GPIO.HIGH)
-            time.sleep(5)
+            time.sleep(3)
             GPIO.output(SOLENOID_PIN,GPIO.LOW)
             addWater = True
             
